@@ -43,6 +43,10 @@ public class Game {
         this.dealer.addCard(card);
     }
 
+    public void addCardPlayer(Card card, Player player){
+        player.addCard(card);
+    }
+
     public void deal(int numberOfCards) {
         for (int i = 0; i < numberOfCards ; i++) {
             for (Player player : players) {
@@ -77,17 +81,54 @@ public class Game {
 
     public boolean isDealerWinner() {
         Player player = winnerPlayer();
-        if (getPlayerHandValue(player) > getDealerHandValue()) {
+        if (getPlayerHandValue(player) >= getDealerHandValue()) {
             return false;
         }else{return true;}
     }
 
     public String winnerOverall() {
-        if( isDealerWinner() == false){
-            Player player = winnerPlayer();
-            String name = player.getName();
+        Player player = winnerPlayer();
+        String name = player.getName();
+        int numberOfHighest = countNumberOfHighest();
+        if( isDealerWinner() == true){
+            return "House wins.";
+        } else if(getPlayerHandValue(player)  == getDealerHandValue() || numberOfHighest > 1) {
+            return "It's a Draw.";
+        }else{
             return name + " wins.";
-        } else { return "House wins.";}
+        }
+    }
+
+    public int countNumberOfHighest() {
+        int highest = getHighest();
+        int total = 0;
+        for (Player player: players){
+            if (player.getValueOfHand() == highest){
+                total += 1;
+            }
+        }
+        return total;
+    }
+
+    public int getHighest() {
+        int total = 0;
+        for (Player player: players){
+            int playerTotal = player.getValueOfHand();
+            if( playerTotal > total){
+                total = playerTotal;
+            }
+        }
+        return total;
+    }
+
+    public int countNumberOf21() {
+        int total = 0;
+        for (Player player: players){
+            if (player.is21()){
+                total += 1;
+            }
+        }
+        return total;
     }
 
 

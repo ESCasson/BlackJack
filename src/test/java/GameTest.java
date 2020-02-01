@@ -30,8 +30,6 @@ public class GameTest {
         player3 = new Player("Phil");
         this.game2.addPlayer(player1);
         this.game2.addPlayer(player2);
-        this.game3.addPlayer(player1);
-        this.game3.addPlayer(player2);
         player01 = this.game2.getPlayer(0);
         player02 = this.game2.getPlayer(1);
 
@@ -123,6 +121,61 @@ public class GameTest {
         this.game2.addCardDealer(card1);
         this.game2.addCardDealer(card2);
         assertEquals("Tina wins.", this.game2.winnerOverall());
+    }
+    @Test
+    public void canCompareHandsPlayerDealerDraw(){
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        this.game2.addCardDealer(card3);
+        this.game2.addCardDealer(card4);
+        assertEquals("It's a Draw.", this.game2.winnerOverall());
+    }
+
+    @Test
+    public void canGetNumberOf21OfPlayers(){
+        this.game3.addPlayer(player2);
+        this.game3.addPlayer(player3);
+        Player player02 = this.game3.getPlayer(0);
+        Player player03 = this.game3.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        player03.addCard(card3);
+        player03.addCard(card4);
+        assertEquals(2, game3.countNumberOf21());
+
+    }
+
+    @Test
+    public void canGetHightest(){
+        this.game3.addPlayer(player2);
+        this.game3.addPlayer(player3);
+        Player player02 = this.game3.getPlayer(0);
+        Player player03 = this.game3.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        player03.addCard(card3);
+        player03.addCard(card4);
+        assertEquals(21, game3.getHighest());
+    }
+
+    @Test
+    public void canCountHightest(){
+        this.game3.addPlayer(player2);
+        this.game3.addPlayer(player3);
+        Player player02 = this.game3.getPlayer(0);
+        Player player03 = this.game3.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        player03.addCard(card3);
+        player03.addCard(card4);
+        assertEquals(2, game3.countNumberOfHighest());
+    }
+
+    @Test
+    public void canAddCardToPlayer(){
+        this.game2.addCardPlayer(card1, player01);
+        assertEquals(3, game2.countHandPlayer(0));
     }
 
 }

@@ -14,6 +14,7 @@ public class PlayerTest
     public void before(){
         player = new Player("Bob");
         card = new Card(SuitType.CLUBS, RankType.JACK);
+        card2 = new Card(SuitType.HEARTS, RankType.ACE);
     }
 
     @Test
@@ -29,26 +30,64 @@ public class PlayerTest
 
     @Test
     public void canGetValueOfHand(){
-        card2 = new Card(SuitType.HEARTS, RankType.JACK);
         player.addCard(card);
         player.addCard(card2);
-        assertEquals(20, player.getValueOfHand());
+        assertEquals(21, player.getValueOfHand());
     }
     @Test
-    public void canDetectAceIsThere(){
-        card2 = new Card(SuitType.HEARTS, RankType.ACE);
+    public void canDetectNumberAceInHand(){
+        Card card3 = new Card(SuitType.CLUBS, RankType.ACE);
         player.addCard(card);
         player.addCard(card2);
-        assertEquals(true, player.handContainsAce());
+        player.addCard(card3);
+        assertEquals(2, player.numberOfAces());
 
     }
     @Test
     public void canDetectAceIsNotThere(){
-        card2 = new Card(SuitType.HEARTS, RankType.TEN);
+        Card card3 = new Card(SuitType.HEARTS, RankType.TWO);
+        player.addCard(card);
+        player.addCard(card3);
+        assertEquals(0, player.numberOfAces());
+
+    }
+
+    @Test
+    public void canDetectIfOver21True(){
+        Card card3 = new Card(SuitType.CLUBS, RankType.ACE);
+        player.addCard(card2);
+        player.addCard(card3);
+        assertEquals(true, player.isOver21());
+    }
+
+    @Test
+    public void canDetectIfOver21False(){
         player.addCard(card);
         player.addCard(card2);
-        assertEquals(false, player.handContainsAce());
+        assertEquals(false, player.isOver21());
+    }
 
+    @Test
+    public void canDetectIfHandValue21True(){
+        player.addCard(card);
+        player.addCard(card2);
+        assertEquals(true, player.is21());
+    }
+
+    @Test
+    public void canDetectIfHandValue21False(){
+        player.addCard(card);
+        player.addCard(card);
+        assertEquals(false, player.is21());
+    }
+
+    @Test
+    public void canChangeAceReset(){
+        player.addCard(card);
+        player.addCard(card2);
+        player.addCard(card2);
+        player.changeAceReset();
+        assertEquals(-20, player.getAceReset());
     }
 
 
