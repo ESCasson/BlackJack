@@ -63,15 +63,17 @@ public class Helper {
         }
     }
 
-    public void thereIsBlackJack(){
+    public void thereIsBlackJack() {
         if (this.game.countNumberOf21() == 1) {
             Player winner = this.game.winnerPlayer();
             System.out.println(winner.getName() + " is the winner.");
-        } else {System.out.println("It is a draw.");}
-
+        } else {
+            System.out.println("It is a draw.");
+        }
+    }
         public void mainPlayerGame(){
             ArrayList<Player> players = game.getPlayers();
-            for(Player player : players){
+            for (Player player : players){
                 //show players hand
                 //ask player to twist or stick
                 //if stick move to next player
@@ -88,5 +90,4 @@ public class Helper {
     }
 
 
-    }
 

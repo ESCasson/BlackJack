@@ -133,11 +133,11 @@ public class Game {
     }
 
     public String getDealerCardInfo() {
-        return this.dealer.getTopCardInfo();
+        return dealer.getTopCardInfo();
     }
 
     public ArrayList<Player> getPlayers() {
-        return this.players();
+        return players;
     }
 
 
