@@ -1,21 +1,23 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 
 public class Helper {
     private Game game;
-    int morePlayersCheck = 0;
+    private int morePlayersCheck;
+
 
     public Helper()
     {
         game = new Game();
 
-
+        this.morePlayersCheck = 0;
         do {
             addPlayer();
             addPlayerCheck();
         }
-        while (morePlayersCheck < 0);
+        while (this.morePlayersCheck == 0);
 
         System.out.println("Initial Deal");
 
@@ -24,6 +26,11 @@ public class Helper {
         if (this.game.countNumberOf21() != 0) {
            thereIsBlackJack();
         }else{
+            String dealerTopCardInfo = this.game.getDealerCardInfo();
+            System.out.println("The dealers top card is the " + dealerTopCardInfo);
+
+
+
             System.out.println("Game Continues");
 
 
@@ -52,7 +59,7 @@ public class Helper {
         Scanner morePlayersInput = new Scanner(System.in);
         String input = morePlayersInput.nextLine();
         if (input.equals("No")) {
-            morePlayersCheck += 1;
+            this.morePlayersCheck += 1 ;
         }
     }
 
@@ -61,6 +68,19 @@ public class Helper {
             Player winner = this.game.winnerPlayer();
             System.out.println(winner.getName() + " is the winner.");
         } else {System.out.println("It is a draw.");}
+
+        public void mainPlayerGame(){
+            ArrayList<Player> players = game.getPlayers();
+            for(Player player : players){
+                //show players hand
+                //ask player to twist or stick
+                //if stick move to next player
+                //if twist add new card to deck,
+                //check if burst, with ace check,
+                //if not bust ask twist/stick again
+                //if burst remove player
+            }
+        }
 
 
 

@@ -178,6 +178,12 @@ public class GameTest {
         assertEquals(3, game2.countHandPlayer(0));
     }
 
+    @Test
+    public void canGetDealerToCardInfo(){
+        this.game2.addCardDealer(card1);
+        assertEquals("EIGHT of CLUBS", this.game2.getDealerCardInfo());
+    }
+
 
 }
 

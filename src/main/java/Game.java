@@ -132,6 +132,13 @@ public class Game {
         return total;
     }
 
+    public String getDealerCardInfo() {
+        return this.dealer.getTopCardInfo();
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return this.players();
+    }
 
 
 //end of class
