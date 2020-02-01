@@ -39,6 +39,10 @@ public class Game {
         return total;
     }
 
+    public void addCardDealer(Card card){
+        this.dealer.addCard(card);
+    }
+
     public void deal(int numberOfCards) {
         for (int i = 0; i < numberOfCards ; i++) {
             for (Player player : players) {
@@ -50,6 +54,42 @@ public class Game {
         }
 
     }
+
+    public int getPlayerHandValue(Player player){
+        int total = player.getValueOfHand();
+        return total;
+    }
+
+    private int getDealerHandValue() {
+        int total = this.dealer.getValueOfHand();
+        return total;
+    }
+
+    public Player winnerPlayer() {
+        Player winner = getPlayer(0);
+        for (Player player : players) {
+            if (getPlayerHandValue(player) > getPlayerHandValue(winner)) {
+                winner = player;
+            }
+        }
+        return winner;
+    }
+
+    public boolean isDealerWinner() {
+        Player player = winnerPlayer();
+        if (getPlayerHandValue(player) > getDealerHandValue()) {
+            return false;
+        }else{return true;}
+    }
+
+    public String winnerOverall() {
+        if( isDealerWinner() == false){
+            Player player = winnerPlayer();
+            String name = player.getName();
+            return name + " wins.";
+        } else { return "House wins.";}
+    }
+
 
 //end of class
 }

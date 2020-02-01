@@ -20,4 +20,12 @@ public class Dealer {
     {
         hand.add(card);
     }
+
+    public int getValueOfHand() {
+        int total = 0;
+        for (Card card : hand){
+            total += card.getValueFromCard();
+        }
+        return total;
+    }
 }

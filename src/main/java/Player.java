@@ -12,6 +12,9 @@ public class Player {
     public int getCardValue(Card card){
         return card.getValueFromCard();
     }
+    public String getName(){
+        return this.name;
+    }
 
 
     public int countHand(){

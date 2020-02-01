@@ -6,23 +6,43 @@ import static org.junit.Assert.assertNotNull;
 
 public class GameTest {
     private Game game;
+    private Game game2;
+    private Game game3;
+
     private Player player1;
+    private Player player01;
     private Player player2;
+    private Player player02;
     private Player player3;
     private Dealer dealer;
     private Card card1;
     private Card card2;
     private Card card3;
+    private Card card4;
 
     @Before
     public void before() {
         game = new Game();
+        game2 = new Game();
+        game3 = new Game();
         player1 = new Player("Bob");
         player2 = new Player("Tina");
         player3 = new Player("Phil");
+        this.game2.addPlayer(player1);
+        this.game2.addPlayer(player2);
+        this.game3.addPlayer(player1);
+        this.game3.addPlayer(player2);
+        player01 = this.game2.getPlayer(0);
+        player02 = this.game2.getPlayer(1);
+
+
         card1 = new Card(SuitType.CLUBS, RankType.EIGHT);
         card2 = new Card(SuitType.CLUBS, RankType.FIVE);
         card3 = new Card(SuitType.CLUBS, RankType.TEN);
+        card4 = new Card(SuitType.DIAMONDS, RankType.ACE);
+
+        player01.addCard(card1);
+        player01.addCard(card2);
     }
 
     @Test
@@ -38,7 +58,7 @@ public class GameTest {
 
     @Test
     public void canDealCards() {
-        this.game.addPlayer(player1);
+        this.game.addPlayer(player3);
         this.game.addPlayer(player2);
         this.game.deal(2);
         assertEquals(2, this.game.countHandPlayer(0));
@@ -47,6 +67,66 @@ public class GameTest {
         assertEquals(46, this.game.countDeck());
     }
 
+    @Test
+    public void canGetValueOfHand() {
+        assertEquals(13, this.game2.getPlayerHandValue(player01));
+    }
+
+
+    @Test
+    public void canCompareHandsPlayer() {
+        player02.addCard(card3);
+        player02.addCard(card4);
+        assertEquals(player02, this.game2.winnerPlayer());
+
+
+    }
+    @Test
+    public void canTellIfDealerIsWinnerTrue(){
+        Card card5 = new Card(SuitType.DIAMONDS, RankType.TWO);
+        Card card6 = new Card(SuitType.DIAMONDS, RankType.THREE);
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card5);
+        player02.addCard(card6);
+        this.game2.addCardDealer(card3);
+        this.game2.addCardDealer(card4);
+        assertEquals(true, this.game2.isDealerWinner());
+    }
+
+    @Test
+    public void canTellIfDealerIsWinnerFalse(){
+        Card card5 = new Card(SuitType.DIAMONDS, RankType.TWO);
+        Card card6 = new Card(SuitType.DIAMONDS, RankType.THREE);
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        this.game2.addCardDealer(card5);
+        this.game2.addCardDealer(card6);
+        assertEquals(false, this.game2.isDealerWinner());
+    }
+
+    @Test
+    public void canCompareHandsPlayerDealerDealerWins(){
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card1);
+        player02.addCard(card2);
+        this.game2.addCardDealer(card3);
+        this.game2.addCardDealer(card4);
+        assertEquals("House wins.", this.game2.winnerOverall());
+    }
+
+    @Test
+    public void canCompareHandsPlayerDealerPlayerWins(){
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        this.game2.addCardDealer(card1);
+        this.game2.addCardDealer(card2);
+        assertEquals("Tina wins.", this.game2.winnerOverall());
+    }
+
 }
+
+
 
 
