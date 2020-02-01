@@ -121,6 +121,7 @@ public class Game {
         return total;
     }
 
+
     public int countNumberOf21() {
         int total = 0;
         for (Player player: players){
@@ -130,6 +131,7 @@ public class Game {
         }
         return total;
     }
+
 
 
 //end of class

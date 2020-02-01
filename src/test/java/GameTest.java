@@ -178,6 +178,7 @@ public class GameTest {
         assertEquals(3, game2.countHandPlayer(0));
     }
 
+
 }
 
 

@@ -28,4 +28,18 @@ public class Dealer {
         }
         return total;
     }
+
+    public Card getTopCard() {
+        return getHand(0);
+    }
+
+    public String getTopCardInfo(){
+        Card card = getTopCard();
+        RankType ranktype = card.getRank();
+        String rank = ranktype.toString();
+        SuitType suittype = card.getSuit();
+        String suit = suittype.toString();
+        String info = rank + " of " + suit;
+        return  info;
+    }
 }
