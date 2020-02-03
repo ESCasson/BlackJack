@@ -34,7 +34,7 @@ public class Player {
         for (Card card : hand){
             total += card.getValueFromCard();
         }
-        return total;
+        return total - this.aceReset;
     }
 
     public int numberOfAces() {
@@ -70,8 +70,14 @@ public class Player {
 
     public void changeAceReset() {
         if (isOver21() && numberOfAces()>0){
-            this.aceReset = -10 * numberOfAces();
+            this.aceReset = 10 * numberOfAces();
         }
     }
+
+    public ArrayList<Card> getHand() {
+        return this.hand;
+    }
+
+
 }
 

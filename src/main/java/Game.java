@@ -47,11 +47,20 @@ public class Game {
         player.addCard(card);
     }
 
+    public void singleDeal(Player player){
+        Card card = this.deck.dealCard();
+                player.addCard(card);
+    }
+
+    public void singleDealDealer(){
+        Card card = this.deck.dealCard();
+        addCardDealer(card);
+    }
+
     public void deal(int numberOfCards) {
         for (int i = 0; i < numberOfCards ; i++) {
             for (Player player : players) {
-                Card card = this.deck.dealCard();
-                player.addCard(card);
+                singleDeal(player);
             }
             Card card1 = this.deck.dealCard();
             dealer.addCard(card1);
@@ -60,11 +69,13 @@ public class Game {
     }
 
     public int getPlayerHandValue(Player player){
+        player.changeAceReset();
         int total = player.getValueOfHand();
         return total;
     }
 
-    private int getDealerHandValue() {
+    public int getDealerHandValue() {
+        this.dealer.changeAceReset();
         int total = this.dealer.getValueOfHand();
         return total;
     }
@@ -81,18 +92,17 @@ public class Game {
 
     public boolean isDealerWinner() {
         Player player = winnerPlayer();
-        if (getPlayerHandValue(player) >= getDealerHandValue()) {
-            return false;
-        }else{return true;}
+        if (getPlayerHandValue(player) < getDealerHandValue() && getDealerHandValue() <= 21) {
+            return true;
+        }else{return false;}
     }
 
     public String winnerOverall() {
         Player player = winnerPlayer();
         String name = player.getName();
-        int numberOfHighest = countNumberOfHighest();
         if( isDealerWinner() == true){
             return "House wins.";
-        } else if(getPlayerHandValue(player)  == getDealerHandValue() || numberOfHighest > 1) {
+        } else if(getPlayerHandValue(player)  == getDealerHandValue()) {
             return "It's a Draw.";
         }else{
             return name + " wins.";
@@ -138,6 +148,47 @@ public class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public String getPlayersHand(Player player) {
+        String message =player.getName() + "'s hand is";
+        ArrayList<Card> hand = player.getHand();
+        int i = 1;
+        for (Card card : hand){
+            RankType rankType = card.getRank();
+            String rank = rankType.toString();
+            SuitType suitType = card.getSuit();
+            String suit = suitType.toString();
+            String cardInfo = " card"+ i +": " + rank + " of " + suit + ",";
+            i ++;
+            message = message.concat(cardInfo);
+        }
+        return message;
+    }
+
+
+    public boolean isPlayerAt21(Player player){
+        return player.is21();
+    }
+
+    public void updatePlayers(ArrayList<Player> notBustPlayers) {
+        this.players = notBustPlayers;
+    }
+
+    public Player getPlayerWithLargestSizeHand() {
+        Player playerDraw = null;
+        int playerDrawSize = 0;
+        for (Player player : players){
+            if (player.getValueOfHand() == getHighest() && player.countHand() >= playerDrawSize){
+                if (player.countHand() == playerDrawSize){
+                    playerDraw = null;
+                } else {
+                    playerDraw = player;
+                    playerDrawSize = player.countHand();
+                }
+            }
+        }
+        return playerDraw;
     }
 
 

@@ -6,14 +6,15 @@ import java.util.Scanner;
 public class Helper {
     private Game game;
     private int morePlayersCheck;
+    private ArrayList<Player> notBustPlayers;
 
-
-    public Helper()
-    {
-        game = new Game();
+    public Helper() {
+        this.game = new Game();
+        this.notBustPlayers = new ArrayList<>();
 
         this.morePlayersCheck = 0;
         do {
+
             addPlayer();
             addPlayerCheck();
         }
@@ -24,27 +25,25 @@ public class Helper {
         this.game.deal(2);
         //if there is blackjack end game otherwise
         if (this.game.countNumberOf21() != 0) {
-           thereIsBlackJack();
-        }else{
+            thereIsBlackJack();
+        } else {
             String dealerTopCardInfo = this.game.getDealerCardInfo();
             System.out.println("The dealers top card is the " + dealerTopCardInfo);
-
-
-
-            System.out.println("Game Continues");
-
-
-
-
-
-
+            //runs through player sequence
+            mainPlayerGame();
+            //check if the player draw
+            int numberOfDraws = game.countNumberOfHighest();
+            if (numberOfDraws > 1) {
+                System.out.println("Players draw.  End of Game");
+            }else {
+                //run dealer sequence
+                dealerSequence();
+                //check overall winner
+                System.out.println(game.winnerOverall());
+            }
 
         }
-
-
     }
-
-
 
     public void addPlayer() {
         System.out.println("What is your player name?");
@@ -59,7 +58,7 @@ public class Helper {
         Scanner morePlayersInput = new Scanner(System.in);
         String input = morePlayersInput.nextLine();
         if (input.equals("No")) {
-            this.morePlayersCheck += 1 ;
+            this.morePlayersCheck += 1;
         }
     }
 
@@ -71,23 +70,67 @@ public class Helper {
             System.out.println("It is a draw.");
         }
     }
-        public void mainPlayerGame(){
-            ArrayList<Player> players = game.getPlayers();
-            for (Player player : players){
-                //show players hand
-                //ask player to twist or stick
-                //if stick move to next player
-                //if twist add new card to deck,
-                //check if burst, with ace check,
-                //if not bust ask twist/stick again
-                //if burst remove player
-            }
+
+    public void mainPlayerGame() {
+
+        ArrayList<Player> players = game.getPlayers();
+        for (Player player : players) {
+            //show players hand
+            String name = player.getName();
+            System.out.println("It is " + name + "'s turn, other players look away. Press Enter to Continue ");
+            Scanner enterInput = new Scanner(System.in);
+            String enter = enterInput.nextLine();
+            System.out.println(game.getPlayersHand(player));
+            System.out.println("The value of the hand is " + game.getPlayerHandValue(player));
+            //ask player to twist or stick
+            //if stick move to next player
+            //if twist add new card to deck,
+            //check if burst, with ace check,
+            //if not bust ask twist/stick again
+            twistOrStick(player);
         }
-
-
-
-
+        //if burst remove player
+        game.updatePlayers(this.notBustPlayers);
     }
+
+    public void twistOrStick(Player player) {
+        System.out.println("Do you want to twist or Stick? Twist/Stick");
+        Scanner actionInput = new Scanner(System.in);
+        String action = actionInput.nextLine();
+        switch (action) {
+            case "Stick":
+                notBustPlayers.add(player);
+                break;
+            case "Twist":
+                game.singleDeal(player);
+
+                System.out.println(game.getPlayersHand(player));
+                int value = game.getPlayerHandValue(player);
+                System.out.println("The value of the hand is " + value);
+
+                if (value == 21) {
+                    this.notBustPlayers.add(player);
+                    System.out.println("You are at 21.  Next player");
+                } else if (value > 21) {
+                    System.out.println("Bust.  You lose!");
+                } else {
+                    twistOrStick(player);
+                }
+                break;
+            default:
+                twistOrStick(player);
+        }
+    }
+
+    public void dealerSequence(){
+        do {
+            game.singleDealDealer();
+        }
+        while(game.getDealerHandValue() < 17);
+    }
+//end of class
+}
+
 
 
 

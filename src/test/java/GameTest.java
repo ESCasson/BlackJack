@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -184,6 +186,43 @@ public class GameTest {
         assertEquals("EIGHT of CLUBS", this.game2.getDealerCardInfo());
     }
 
+    @Test
+    public void getPlayersCardInfo(){
+        Player player02 = this.game2.getPlayer(1);
+        player02.addCard(card3);
+        player02.addCard(card4);
+        String message = "Tina's hand is card1: TEN of CLUBS, card2: ACE of DIAMONDS,";
+        assertEquals(message, game2.getPlayersHand(player02) );
+
+    }
+
+    @Test
+    public void canUpdatePlayers(){
+        ArrayList<Player> testArray = new ArrayList<>();
+        testArray.add(player1);
+        game.updatePlayers(testArray);
+        assertEquals(1, game.countPlayers());
+    }
+
+    @Test
+    public void canGetDealerValue(){
+        game.addCardDealer(card1);
+        assertEquals(8, game.getDealerHandValue());
+    }
+    @Test
+    public void getPlayerWithLargestSizeOfHandOfDraw(){
+        Card card07 = new Card(SuitType.HEARTS, RankType.SEVEN);
+        Card card04 = new Card(SuitType.HEARTS, RankType.FOUR);
+        Card card02 = new Card(SuitType.HEARTS, RankType.TWO);
+        player01.addCard(card1);
+        player01.addCard(card2);
+        player02.addCard(card07);
+        player02.addCard(card04);
+        player02.addCard(card02);
+        Player winningPlayer = game2.getPlayerWithLargestSizeHand();
+        assertEquals(player02.getName(), winningPlayer.getName());
+
+    }
 
 }
 

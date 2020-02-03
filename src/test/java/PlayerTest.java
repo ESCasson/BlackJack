@@ -87,7 +87,7 @@ public class PlayerTest
         player.addCard(card2);
         player.addCard(card2);
         player.changeAceReset();
-        assertEquals(-20, player.getAceReset());
+        assertEquals(20, player.getAceReset());
     }
 
 
